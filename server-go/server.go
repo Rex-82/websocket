@@ -21,8 +21,10 @@ type echoServer struct {
 }
 
 func (s echoServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	s.logf("err here")
 	c, err := websocket.Accept(w, r, &websocket.AcceptOptions{
-		Subprotocols: []string{"echo"},
+		Subprotocols:   []string{"echo"},
+		OriginPatterns: []string{"127.0.0.1:8081"},
 	})
 	if err != nil {
 		s.logf("%v", err)
