@@ -1,5 +1,7 @@
 // WebSocket client
 
+import { timeAgo } from "./timeAgo.js";
+
 const connectionButton = document.getElementById("connection-button");
 const sendButton = document.getElementById("send-button");
 const messagesContainer = document.getElementById("messages-container");
@@ -13,6 +15,8 @@ let hasEvents = false;
 
 function openConnection() {
 	if (!socketOpen) {
+		const userId = Math.ceil(Math.random() * 100);
+
 		connectionButton.textContent = "";
 		connectionButton.setAttribute("aria-busy", "true");
 
@@ -30,7 +34,13 @@ function openConnection() {
 				function sendMessage() {
 					console.log(socket);
 					if (messageInputArea.value.trim() !== "") {
-						socket.send(messageInputArea.value.trim());
+						const message = {
+							user: userId,
+							timeStamp: new Date(),
+							message: messageInputArea.value.trim(),
+						};
+
+						socket.send(JSON.stringify(message));
 						messageInputArea.value = "";
 					}
 				}
@@ -65,12 +75,50 @@ function openConnection() {
 		});
 
 		socket.addEventListener("message", (event) => {
-			const div = document.createElement("div");
-			div.classList.add("chat-message");
-			div.textContent = event.data;
-			messagesContainer.prepend(div);
+			try {
+				const messageContent = JSON.parse(event.data);
+				const div = document.createElement("div");
+				const metadata = document.createElement("div");
+				const user = document.createElement("span");
+				const timeStamp = document.createElement("time");
+				div.classList.add("chat-message");
+				user.classList.add("chat-message-user");
+				timeStamp.classList.add("chat-message-timestamp");
+
+				div.textContent = messageContent.message;
+				user.textContent = `from ${messageContent.user}`;
+				const messageDate = timeAgo(new Date(messageContent.timeStamp));
+
+				timeStamp.textContent = messageDate;
+				timeStamp.setAttribute("datetime", messageContent.timeStamp);
+
+				metadata.appendChild(user);
+				metadata.appendChild(timeStamp);
+
+				div.appendChild(metadata);
+
+				if (messageContent.user === userId) {
+					div.classList.add("self-message");
+				} else {
+					div.classList.add("others-message");
+				}
+				messagesContainer.appendChild(div);
+			} catch (err) {
+				console.error("Error while parsing incoming message: ", err);
+			}
 		});
 	}
 }
+
+setInterval(() => {
+	const messages = document.getElementById("messages-container").children;
+
+	for (const message of messages) {
+		const timeStamp = message.getElementsByTagName("time")[0];
+		timeStamp.textContent = timeAgo(
+			new Date(timeStamp.getAttribute("datetime")),
+		);
+	}
+}, 5000);
 
 connectionButton.addEventListener("click", openConnection);

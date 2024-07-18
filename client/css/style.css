@@ -23,6 +23,14 @@ html {
   font-size: 1em;
 }
 
+.bottom {
+  height: 100vh;
+  padding: 1em;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
 #chat-buttons-container {
   display: flex;
   justify-content: flex-end;
@@ -35,4 +43,46 @@ html {
 
 #send-button {
   transition: opacity 0.125s ease-in;
+}
+
+#messages-container {
+  padding: 0.5em 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1em; /* TODO: reduce gap between same user's messages */
+}
+
+.chat-message {
+  padding: 0.5em;
+  border-radius: 0.75em;
+  max-width: 50vw;
+}
+
+.chat-message > div {
+  font-size: 0.75em;
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75em;
+}
+
+.chat-message > div > * {
+  color: slateblue;
+  padding: 0.35em;
+  border-radius: 0.5em;
+}
+
+.self-message {
+  align-self: flex-end;
+  background-color: hsl(
+    230,
+    30%,
+    30%
+  ); /* TODO: Give different color for each user*/
+  border-top-right-radius: 0;
+}
+
+.others-message {
+  align-self: flex-start;
+  background-color: hsl(240, 30%, 30%);
+  border-top-left-radius: 0;
 }
