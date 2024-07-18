@@ -17,7 +17,7 @@ let socketOpen = false;
 let hasEvents = false;
 openConnButton.addEventListener("click", () => {
 	if (!socketOpen) {
-		const endpoint = "ws://127.0.0.1:9876";
+		const endpoint = "ws://127.0.0.1:8080";
 
 		const socket = new WebSocket(endpoint);
 
@@ -26,20 +26,26 @@ openConnButton.addEventListener("click", () => {
 			console.log("connection opened");
 			if (!hasEvents) {
 				hasEvents = true;
-				sendButton.addEventListener("click", () => {
+				function sendMessage() {
 					console.log(socket);
 					socket.send("hello world!");
-				});
+				}
 
-				closeConnButton.addEventListener("click", () => {
+				function closeConnection() {
 					socket.close();
 					if (socket.CLOSED) {
 						console.log("connection closed");
+						sendButton.removeEventListener("click", sendMessage);
+						closeConnButton.removeEventListener("click", closeConnection);
+						hasEvents = false;
 						socketOpen = false;
 					} else {
 						console.log("connection not closed");
 					}
-				});
+				}
+
+				sendButton.addEventListener("click", sendMessage);
+				closeConnButton.addEventListener("click", closeConnection);
 			}
 		});
 
