@@ -1,14 +1,14 @@
-const WebSocket = require("ws");
-const express = require("express");
+import { WebSocketServer } from "ws";
+import path from "node:path";
+import express from "express";
 const app = express();
-const path = require("path");
 
-app.use("/", express.static(path.resolve(__dirname, "../client")));
+app.use("/", express.static(path.resolve(import.meta.dirname, "../client")));
 
-const myServer = app.listen(9876); // regular http server using node express which serves your webpage
+const expressServer = app.listen(9876); // regular http server using node express which serves your webpage
 
-const wsServer = new WebSocket.Server({
-	noServer: true,
+const wsServer = new WebSocketServer({
+	port: 8080,
 }); // a websocket server
 
 wsServer.on("connection", (ws) => {
@@ -16,15 +16,12 @@ wsServer.on("connection", (ws) => {
 	ws.on("message", (msg) => {
 		// what to do on message event
 		for (const client of wsServer.clients) {
-			if (client.readyState === WebSocket.OPEN) {
-				// check if client is ready
-				client.send(msg.toString());
-			}
+			client.send(msg.toString());
 		}
 	});
 });
 
-myServer.on("upgrade", async function upgrade(request, socket, head) {
+expressServer.on("upgrade", async function upgrade(request, socket, head) {
 	//handling upgrade(http to websocekt) event
 
 	// accepts half requests and rejects half. Reload browser page in case of rejection
