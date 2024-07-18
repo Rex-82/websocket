@@ -110,6 +110,7 @@ function openConnection() {
 	}
 }
 
+// Interval to check and replace timestamp every minute
 setInterval(() => {
 	const messages = document.getElementById("messages-container").children;
 
@@ -119,6 +120,6 @@ setInterval(() => {
 			new Date(timeStamp.getAttribute("datetime")),
 		);
 	}
-}, 5000);
+}, 60000);
 
 connectionButton.addEventListener("click", openConnection);
