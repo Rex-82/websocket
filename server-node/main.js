@@ -4,18 +4,12 @@ import path from "node:path";
 import express from "express";
 const app = express();
 
-app.use("/", express.static(path.resolve(import.meta.dirname, "../client")));
+app.use("/", express.static(path.resolve(import.meta.dirname, "./client")));
 
 const expressServer = app.listen(9876); // regular http server using node express which serves your webpage
 
 expressServer.on("upgrade", async function upgrade(request, socket, head) {
 	//handling upgrade(http to websocekt) event
-
-	// accepts half requests and rejects half. Reload browser page in case of rejection
-
-	if (Math.random() > 0.5) {
-		return socket.end("HTTP/1.1 401 Unauthorized\r\n", "ascii"); //proper connection close in case of rejection
-	}
 
 	//emit connection when request accepted
 	wsServer.handleUpgrade(request, socket, head, function done(ws) {

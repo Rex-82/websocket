@@ -1,0 +1,15 @@
+services:
+  websocket-chat:
+    build: ./
+    restart: always
+    ports:
+      - 8080:8080
+      - 9876:9876
+    volumes:
+      - ../client:/usr/src/app/client
+
+networks:
+  network:
+      name: nginx-proxy-manager_default
+      external: true
+
