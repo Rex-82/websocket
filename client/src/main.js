@@ -16,6 +16,8 @@ let hasEvents = false;
 
 const userId = Math.ceil(Math.random() * 100); // TODO: improve random Id generator to prevent collisions
 
+// WARN: Check network in compose file
+
 function openConnection() {
 	if (!socketOpen) {
 		// TODO: handle login?
@@ -23,7 +25,7 @@ function openConnection() {
 		connectionButton.textContent = "";
 		connectionButton.setAttribute("aria-busy", "true");
 
-		const endpoint = "ws://127.0.20.13:9876";
+		const endpoint = "ws://127.0.20.13:9876"; // WARN: check how to manage this
 
 		const socket = new WebSocket(endpoint);
 
