@@ -23,7 +23,7 @@ function openConnection() {
 		connectionButton.textContent = "";
 		connectionButton.setAttribute("aria-busy", "true");
 
-		const endpoint = "ws://127.0.0.1:8080";
+		const endpoint = "ws://127.0.20.13:9876";
 
 		const socket = new WebSocket(endpoint);
 
