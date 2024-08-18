@@ -3,7 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>WebSocket chat app</title>
+    <meta name="author" content="Simone Ferretti" />
     <script defer type="module" src="./src/main.js"></script>
     <link
       rel="stylesheet"
@@ -12,12 +13,40 @@
     <link rel="stylesheet" href="./css/style.css" />
   </head>
   <body>
+    <p id="madeBy">
+      Made by
+      <a href="https://github.com/Rex-82">Simone Ferretti</a>
+    </p>
     <div class="bottom">
-      <div id="messages-container" class="container"></div>
-      <input type="textarea" name="message-box" id="message-input-area" />
-      <div id="chat-buttons-container">
-        <button id="connection-button"></button>
-        <button id="send-button" disabled></button>
+      <div id="messages-container" class="container-fluid">
+        <div id="disclaimer" class="container">
+          <p>
+            This project is still under development and may lack some features,
+            including:
+          </p>
+          <ul>
+            <li>Multiple sessions handling</li>
+            <li>Persistent message history</li>
+            <li>Login/Auth</li>
+            <li>Better user id generation</li>
+            <li>Full responsiveness</li>
+          </ul>
+          <p>
+            Expect occasional bugs or interruptions. Your feedback is welcome!
+          </p>
+        </div>
+      </div>
+      <div>
+        <textarea name="message-box" id="message-input-area"> </textarea>
+        <div id="chat-buttons-container">
+          <a href="https://github.com/Rex-82/websocket/issues" class="secondary"
+            >Report bug</a
+          >
+          <div>
+            <button id="connection-button"></button>
+            <button id="send-button" disabled></button>
+          </div>
+        </div>
       </div>
     </div>
   </body>

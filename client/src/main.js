@@ -9,13 +9,16 @@ const messageInputArea = document.getElementById("message-input-area");
 
 connectionButton.textContent = "connect";
 sendButton.textContent = "send";
+messageInputArea.setAttribute("disabled", "");
 
 let socketOpen = false;
 let hasEvents = false;
 
+const userId = Math.ceil(Math.random() * 100); // TODO: improve random Id generator to prevent collisions
+
 function openConnection() {
 	if (!socketOpen) {
-		const userId = Math.ceil(Math.random() * 100);
+		// TODO: handle login?
 
 		connectionButton.textContent = "";
 		connectionButton.setAttribute("aria-busy", "true");
@@ -28,7 +31,15 @@ function openConnection() {
 			socketOpen = true;
 			connectionButton.setAttribute("aria-busy", "false");
 			connectionButton.textContent = "disconnect";
+			messageInputArea.removeAttribute("disabled");
 			console.log("connection opened");
+
+			if (messageInputArea.value.trim() !== "" && socketOpen) {
+				sendButton.removeAttribute("disabled");
+			} else {
+				sendButton.setAttribute("disabled", "");
+			}
+
 			if (!hasEvents) {
 				hasEvents = true;
 				function sendMessage() {
@@ -42,6 +53,7 @@ function openConnection() {
 
 						socket.send(JSON.stringify(message));
 						messageInputArea.value = "";
+						sendButton.setAttribute("disabled", "");
 					}
 				}
 
@@ -55,6 +67,8 @@ function openConnection() {
 						hasEvents = false;
 						socketOpen = false;
 						connectionButton.textContent = "connect";
+						sendButton.setAttribute("disabled", "");
+						messageInputArea.setAttribute("disabled", "");
 					} else {
 						console.log("connection not closed");
 					}
@@ -63,10 +77,18 @@ function openConnection() {
 				sendButton.addEventListener("click", sendMessage);
 				connectionButton.addEventListener("click", closeConnection);
 				messageInputArea.addEventListener("input", () => {
-					if (messageInputArea.value.trim() !== "") {
+					messageInputArea.style.height = "";
+					messageInputArea.style.height = messageInputArea.scrollHeight + "px";
+					if (messageInputArea.value.trim() !== "" && socketOpen) {
 						sendButton.removeAttribute("disabled");
 					} else {
 						sendButton.setAttribute("disabled", "");
+					}
+				});
+
+				messageInputArea.addEventListener("keydown", (e) => {
+					if (e.key === "Enter" && e.shiftKey) {
+						sendMessage();
 					}
 				});
 
@@ -86,7 +108,7 @@ function openConnection() {
 				timeStamp.classList.add("chat-message-timestamp");
 
 				div.textContent = messageContent.message;
-				user.textContent = `from ${messageContent.user}`;
+				user.textContent = `from ${messageContent.user === userId ? `${messageContent.user} (You)` : messageContent.user}`;
 				const messageDate = timeAgo(new Date(messageContent.timeStamp));
 
 				timeStamp.textContent = messageDate;
@@ -103,9 +125,14 @@ function openConnection() {
 					div.classList.add("others-message");
 				}
 				messagesContainer.appendChild(div);
+				messagesContainer.scrollTop = messagesContainer.scrollHeight;
 			} catch (err) {
 				console.error("Error while parsing incoming message: ", err);
 			}
+		});
+
+		socket.addEventListener("error", (err) => {
+			console.log(err);
 		});
 	}
 }
@@ -115,10 +142,12 @@ setInterval(() => {
 	const messages = document.getElementById("messages-container").children;
 
 	for (const message of messages) {
-		const timeStamp = message.getElementsByTagName("time")[0];
-		timeStamp.textContent = timeAgo(
-			new Date(timeStamp.getAttribute("datetime")),
-		);
+		if (message.id !== "disclaimer") {
+			const timeStamp = message.getElementsByTagName("time")[0];
+			timeStamp.textContent = timeAgo(
+				new Date(timeStamp.getAttribute("datetime")),
+			);
+		}
 	}
 }, 60000);
 

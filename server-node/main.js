@@ -1,6 +1,5 @@
 import { WebSocketServer } from "ws";
 
-/*
 import path from "node:path";
 import express from "express";
 const app = express();
@@ -23,7 +22,6 @@ expressServer.on("upgrade", async function upgrade(request, socket, head) {
 		wsServer.emit("connection", ws, request);
 	});
 });
-*/
 
 // TODO: keep messages history
 

@@ -23,18 +23,80 @@ html {
   font-size: 1em;
 }
 
+#madeBy {
+  padding: 0.25rem 0;
+  background-color: var(--pico-form-element-background-color);
+  text-align: center;
+  font-size: 0.875rem;
+  color: hsl(240, 30%, 60%);
+  position: absolute;
+  top: 0;
+  z-index: 1;
+  width: 100%;
+}
+
+#madeBy > a {
+  color: hsl(240, 30%, 80%);
+  text-decoration: none;
+}
+
+#madeBy > a:hover {
+  color: hsl(240, 30%, 100%);
+}
+
+#disclaimer {
+  font-size: 0.75rem;
+  border: 1px solid hsl(240, 30%, 50%);
+  color: hsl(240, 30%, 70%);
+  border-radius: 1rem;
+  opacity: 80%;
+  padding: 0.75rem;
+  max-width: fit-content;
+  margin-bottom: 3rem;
+}
+
+#disclaimer:only-child {
+  font-size: 0.875rem;
+  border: 1px solid hsl(240, 30%, 90%);
+  color: hsl(240, 30%, 90%);
+  border-radius: 1rem;
+  padding: 0.75rem;
+  max-width: fit-content;
+}
+
+#disclaimer > p {
+  margin: 0;
+  color: inherit;
+}
+
+#disclaimer > ul {
+  margin: 0.35rem 0;
+  padding-left: 1.75rem;
+  color: inherit;
+}
+
 .bottom {
-  height: 100vh;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
   padding: 1em;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
 }
 
+#message-input-area {
+  resize: none;
+  height: 3rem;
+  overflow: hidden;
+}
+
 #chat-buttons-container {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
+  align-items: center;
   gap: 1em;
+  margin-left: 1rem;
 }
 
 #connection-button {
@@ -46,13 +108,16 @@ html {
 }
 
 #messages-container {
-  padding: 0.5em 0;
+  padding: 1rem;
   display: flex;
   flex-direction: column;
   gap: 1em; /* TODO: reduce gap between same user's messages */
+  max-height: 80vh;
+  overflow: scroll;
 }
 
 .chat-message {
+  white-space: pre-wrap;
   padding: 0.5em;
   border-radius: 0.75em;
   max-width: 50vw;
