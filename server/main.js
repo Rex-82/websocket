@@ -6,7 +6,7 @@ const app = express();
 
 app.use("/", express.static(path.resolve(import.meta.dirname, "./client")));
 
-const expressServer = app.listen(9876); // regular http server using node express which serves your webpage
+const expressServer = app.listen(80); // regular http server using node express which serves your webpage
 
 expressServer.on("upgrade", async function upgrade(request, socket, head) {
 	//handling upgrade(http to websocekt) event
@@ -24,7 +24,7 @@ expressServer.on("upgrade", async function upgrade(request, socket, head) {
 // TODO: Handle custom sessions(?)
 
 const wsServer = new WebSocketServer({
-	port: 8080,
+	port: 9898,
 }); // a websocket server
 
 wsServer.on("connection", (ws) => {
