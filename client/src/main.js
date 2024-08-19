@@ -23,7 +23,7 @@ function openConnection() {
 		connectionButton.textContent = "";
 		connectionButton.setAttribute("aria-busy", "true");
 
-		const endpoint = "ws://chat.rilae.com";
+		const endpoint = "wss://chat.rilae.com";
 
 		const socket = new WebSocket(endpoint);
 
