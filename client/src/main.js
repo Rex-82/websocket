@@ -31,6 +31,7 @@ function openConnection() {
 			socketOpen = true;
 			connectionButton.setAttribute("aria-busy", "false");
 			connectionButton.textContent = "disconnect";
+			connectionButton.setAttribute("data-state", "disconnect");
 			messageInputArea.removeAttribute("disabled");
 			console.log("connection opened");
 
@@ -67,6 +68,7 @@ function openConnection() {
 						hasEvents = false;
 						socketOpen = false;
 						connectionButton.textContent = "connect";
+						connectionButton.setAttribute("data-state", "connect");
 						sendButton.setAttribute("disabled", "");
 						messageInputArea.setAttribute("disabled", "");
 					} else {
@@ -88,7 +90,9 @@ function openConnection() {
 
 				messageInputArea.addEventListener("keydown", (e) => {
 					if (e.key === "Enter" && e.shiftKey) {
+						e.preventDefault();
 						sendMessage();
+						messageInputArea.style.height = "";
 					}
 				});
 

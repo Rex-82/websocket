@@ -23,12 +23,56 @@ html {
   font-size: 1em;
 }
 
+@media only screen and (prefers-color-scheme: dark) {
+  html {
+    --text1: var(--pico-color-indigo-250);
+    --text1-hover: var(--pico-color-indigo-100);
+    --text2: var(--pico-color-zinc-550);
+    --text3: var(--pico-color-slate-550);
+    --header-bg: var(--pico-color-slate-800);
+    --message-self-bg: var(--pico-color-slate-800);
+    --message-others-bg: var(--pico-color-slate-750);
+    --chat-bg: linear-gradient(
+      to bottom,
+      var(--pico-color-slate-850),
+      var(--pico-color-slate-900)
+    );
+    --primary-button: var(--pico-color-indigo-750);
+    --secondary-button: var(--pico-color-slate-850);
+    --active-button: var(--pico-color-indigo-550);
+    --inactive-button: transparent;
+    --border: var(--pico-color-indigo-400);
+  }
+}
+
+@media only screen and (prefers-color-scheme: light) {
+  html {
+    --text1: var(--pico-color-amber-550);
+    --text1-hover: var(--pico-color-amber-400);
+    --text2: var(--pico-color-sand-400);
+    --text3: var(--pico-color-sand-550);
+    --header-bg: var(--pico-color-sand-200);
+    --message-self-bg: var(--pico-color-grey-200);
+    --message-others-bg: var(--pico-color-sand-200);
+    --chat-bg: linear-gradient(
+      to bottom,
+      var(--pico-color-grey-150),
+      var(--pico-color-sand-100)
+    );
+    --primary-button: var(--pico-color-pumpkin-750);
+    --secondary-button: var(--pico-color-pumpkin-450);
+    --active-button: var(--pico-color-amber-250);
+    --inactive-button: transparent;
+    --border: var(--pico-color-amber-400);
+  }
+}
+
 #madeBy {
   padding: 0.25rem 0;
-  background-color: var(--pico-form-element-background-color);
+  background-color: var(--header-bg);
   text-align: center;
   font-size: 0.875rem;
-  color: hsl(240, 30%, 60%);
+  color: var(--text2);
   position: absolute;
   top: 0;
   z-index: 1;
@@ -36,32 +80,29 @@ html {
 }
 
 #madeBy > a {
-  color: hsl(240, 30%, 80%);
+  color: var(--text1);
   text-decoration: none;
 }
 
 #madeBy > a:hover {
-  color: hsl(240, 30%, 100%);
+  color: var(--text1-hover);
 }
 
 #disclaimer {
   font-size: 0.75rem;
-  border: 1px solid hsl(240, 30%, 50%);
-  color: hsl(240, 30%, 70%);
+  border-width: 1px;
+  border-style: solid;
   border-radius: 1rem;
   opacity: 80%;
   padding: 0.75rem;
   max-width: fit-content;
   margin-bottom: 3rem;
+  color: var(--text3);
 }
 
 #disclaimer:only-child {
   font-size: 0.875rem;
-  border: 1px solid hsl(240, 30%, 90%);
-  color: hsl(240, 30%, 90%);
-  border-radius: 1rem;
   padding: 0.75rem;
-  max-width: fit-content;
 }
 
 #disclaimer > p {
@@ -83,6 +124,8 @@ html {
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
+  background: var(--chat-bg);
+  height: 100vh;
 }
 
 #message-input-area {
@@ -101,10 +144,26 @@ html {
 
 #connection-button {
   min-width: 10em;
+  background-color: var(--primary-button);
+  border-color: var(--border);
 }
 
 #send-button {
   transition: opacity 0.125s ease-in;
+  background-color: var(--active-button);
+  border-color: var(--border);
+}
+
+#send-button[disabled] {
+  background-color: var(--secondary-button);
+}
+
+#connection-button[data-state="connect"] {
+  background-color: var(--active-button);
+}
+
+#connection-button[data-state="disconnect"] {
+  background-color: var(--inactive-button);
 }
 
 #messages-container {
@@ -112,7 +171,6 @@ html {
   display: flex;
   flex-direction: column;
   gap: 1em; /* TODO: reduce gap between same user's messages */
-  max-height: 80vh;
   overflow: scroll;
 }
 
@@ -131,23 +189,21 @@ html {
 }
 
 .chat-message > div > * {
-  color: slateblue;
+  color: var(--text3);
   padding: 0.35em;
   border-radius: 0.5em;
 }
 
 .self-message {
   align-self: flex-end;
-  background-color: hsl(
-    230,
-    30%,
-    30%
+  background-color: var(
+    --message-self-bg
   ); /* TODO: Give different color for each user*/
   border-top-right-radius: 0;
 }
 
 .others-message {
   align-self: flex-start;
-  background-color: hsl(240, 30%, 30%);
+  background-color: var(--message-others-bg);
   border-top-left-radius: 0;
 }
