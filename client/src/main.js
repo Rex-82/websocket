@@ -133,6 +133,10 @@ function openConnection() {
 
 		socket.addEventListener("error", (err) => {
 			console.log(err);
+			connectionButton.setAttribute("aria-busy", "false");
+			connectionButton.textContent = "error";
+			connectionButton.classList.add("secondary");
+			connectionButton.setAttribute("disabled", "");
 		});
 	}
 }
