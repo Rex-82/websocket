@@ -1,0 +1,31 @@
+# Deploy app
+
+name: Deploy
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+
+    steps:
+    - name: Deploy using ssh
+      uses: appleboy/ssh-action@v0.1.10
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.PRIVATE_KEY }}
+        port: ${{ secrets.PORT }} 
+        command_timeout: 5m
+        script: |
+          cd ~/repos/websocket/server
+          git pull origin main
+          git status
+          if [ $(docker ps -q -f name=websocket-chat) ]; then
+            docker-compose down
+          fi
+          docker-compose build
+          docker-compose up -d
