@@ -21,11 +21,11 @@ jobs:
         port: ${{ secrets.PORT }} 
         command_timeout: 5m
         script: |
-          cd ~/repos/websocket/server
+          cd ~/repos/websocket/server/
           git pull origin main
           git status
           if [ $(docker ps -q -f name=websocket-chat) ]; then
-            docker-compose down
+            docker compose down
           fi
-          docker-compose build
-          docker-compose up -d
+          docker compose build
+          docker compose up -d
