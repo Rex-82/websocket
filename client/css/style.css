@@ -21,6 +21,29 @@ html {
     sans-serif;
 
   font-size: 1em;
+
+  --pico-color-indigo-750: #2f2f92;
+  --pico-color-indigo-550: #655cd6;
+  --pico-color-indigo-400: #9486e1;
+  --pico-color-indigo-250: #bdb2ec;
+  --pico-color-indigo-100: #e5e0f4;
+  --pico-color-amber-550: #876400;
+  --pico-color-amber-400: #b78800;
+  --pico-color-amber-250: #e8ae01;
+  --pico-color-pumpkin-750: #593100;
+  --pico-color-pumpkin-450: #bf6e00;
+  --pico-color-sand-550: #6e6a60;
+  --pico-color-sand-400: #959082;
+  --pico-color-sand-200: #ccc6b4;
+  --pico-color-sand-100: #e8e2d2;
+  --pico-color-grey-200: #c6c6c6;
+  --pico-color-grey-150: #d4d4d4;
+  --pico-color-zinc-550: #646b79;
+  --pico-color-slate-900: #181c25;
+  --pico-color-slate-850: #202632;
+  --pico-color-slate-800: #2a3140;
+  --pico-color-slate-750: #333c4e;
+  --pico-color-slate-550: #5d6b89;
 }
 
 @media only screen and (prefers-color-scheme: dark) {
