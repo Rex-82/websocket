@@ -1,5 +1,3 @@
-name: websocket-chat
-
 services:
   websocket-chat:
     build: ./
@@ -8,6 +6,7 @@ services:
       - ../client:/usr/src/app/client
     networks:
         - network
+    container_name: websocket-chat
 
 networks:
   network:
